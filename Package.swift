@@ -1,5 +1,8 @@
+// swift-tools-version:5.0
+// The swift-tools-version declares the minimum version of Swift required to build this package.
+
 /**
- * Copyright IBM Corporation 2016, 2017
+ * Copyright IBM Corporation 2016-2019
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,9 +21,24 @@ import PackageDescription
 
 let package = Package(
     name: "LoggerAPI",
-    targets: [
-        Target(
+    products: [
+        // Products define the executables and libraries produced by a package, and make them visible to other packages.
+        .library(
             name: "LoggerAPI",
-            dependencies: []),
+            targets: ["LoggerAPI"]
+        )
+    ],
+    dependencies: [
+        // Note: Syntax to allow compatibility with both Swift 4 and Swift 5 projects.
+        // See: https://github.com/apple/swift-log#help-i-need-swift-4
+        .package(url: "https://github.com/apple/swift-log.git", Version("0.0.0") ..< Version("2.0.0")),
+    ],
+    targets: [
+        // Targets are the basic building blocks of a package. A target can define a module or a test suite.
+        // Targets can depend on other targets in this package, and on products in packages which this package depends on.
+        .target(
+            name: "LoggerAPI",
+            dependencies: ["Logging"]
+        ),
     ]
 )
